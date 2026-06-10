@@ -1,0 +1,20 @@
+# 基本配置
+title: 我的博客
+description: 个人技术博客
+url: "https://yourusername.github.io"
+baseurl: ""
+
+# Jekyll 配置
+markdown: kramdown
+highlighter: rouge
+permalink: /:year/:month/:day/:title/
+
+# 允许未来日期文章
+future: true
+timezone: Asia/Shanghai
+
+# 插件
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
