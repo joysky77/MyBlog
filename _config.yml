@@ -1,7 +1,7 @@
 # 基本配置
-title: 我的博客
-description: 个人技术博客
-url: "https://yourusername.github.io"
+title: MyBlog
+description: 随便谢谢
+url: "https://github.com/joysky77/MyBlog/"
 baseurl: ""
 
 # Jekyll 配置
