@@ -1,0 +1,125 @@
+# 解决codex安装或更新后插件不存在、Codex 更新后、Browser Use 或 Chrome 工具启动失败时使用。
+
+# 方法一#
+
+```
+解决skill：
+
+1. 从最新安装的 Codex Desktop 包里同步 `openai-bundled` 插件 marketplace 到用户目录，并自动更新 `.codex/config.toml`(Codex App 里已经带着这些 bundled plugins，但它们没有被正确同步、注册或加载到当前用户环境。)
+2. 每次codex更新，这些插件也有可能更新，部分插件需要保持最新版才能正常使用，如果需要更新插件需要先在任务管理器里退出extension-host.exe，然后在codex插件管理页面手动卸载旧版插件
+3. 修复 Browser Use / Chrome 依赖的 Windows helper binaries，只复制最新的几个可执行文件
+```
+
+# 方法二#
+使用脚本 sync-openai-bundled.ps1，把下面内容复制保存到.ps1,
+进入powershell,运行：
+```
+powershell -ExecutionPolicy Bypass -File "sync-openai-bundled.ps1"
+```
+
+脚本内容如下：
+```
+#Requires -Version 5.1
+param(
+  [string]$ResourcesPath = "C:\Program Files\WindowsApps\OpenAI.Codex_26.602.9276.0_x64__2p2nqsd0c76g0\app\resources",
+  [string]$CodexHome = "$env:USERPROFILE\.codex"
+)
+
+$ErrorActionPreference = "Stop"
+
+function Write-Step($Message) {
+  Write-Host ""
+  Write-Host "==> $Message"
+}
+
+function Require-Path($Path, $Label) {
+  if (-not (Test-Path -LiteralPath $Path)) {
+    throw "$Label not found: $Path"
+  }
+}
+
+$sourceRoot = Join-Path $ResourcesPath "plugins\openai-bundled"
+$marketplaceJson = Join-Path $sourceRoot ".agents\plugins\marketplace.json"
+$targetRoot = Join-Path $CodexHome "plugins\marketplaces\openai-bundled"
+
+Require-Path $ResourcesPath "Codex resources directory"
+Require-Path $sourceRoot "OpenAI bundled marketplace source"
+Require-Path $marketplaceJson "OpenAI bundled marketplace.json"
+
+# codex.exe inside WindowsApps cannot be executed directly (Windows blocks it).
+# Copy it to a writable temporary location before use.
+$codexExe = Join-Path $ResourcesPath "codex.exe"
+$codexExeFallback = Join-Path $env:TEMP "codex-cli\codex.exe"
+Require-Path $codexExe "Codex CLI (source)"
+
+if ($codexExe -like "*WindowsApps*") {
+  Write-Host "WindowsApps detected: copying codex.exe to $codexExeFallback"
+  $null = New-Item -ItemType Directory -Force -Path (Split-Path -Parent $codexExeFallback)
+  Copy-Item -LiteralPath $codexExe -Destination $codexExeFallback -Force
+  # Copy any adjacent DLLs codex.exe may need at runtime
+  $srcDir = Split-Path -Parent $codexExe
+  Get-ChildItem -Path $srcDir -Filter "*.dll" -ErrorAction SilentlyContinue | ForEach-Object {
+    $dst = Join-Path (Split-Path -Parent $codexExeFallback) $_.Name
+    Copy-Item -LiteralPath $_.FullName -Destination $dst -Force
+  }
+  $codexExe = $codexExeFallback
+  Write-Host "Using codex.exe from: $codexExe"
+}
+Require-Path $codexExe "Codex CLI (executable)"
+
+Write-Step "Stopping extension-host.exe so helper binaries can be refreshed"
+Get-Process extension-host -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+
+Write-Step "Copying OpenAI bundled marketplace into user .codex"
+New-Item -ItemType Directory -Force -Path $targetRoot | Out-Null
+& robocopy $sourceRoot $targetRoot /E /COPY:DAT /DCOPY:DAT /R:1 /W:1 /NFL /NDL /NP
+if ($LASTEXITCODE -gt 7) {
+  throw "robocopy failed with exit code $LASTEXITCODE"
+}
+
+Write-Step "Registering local marketplace in .codex/config.toml"
+$marketplaceList = & $codexExe plugin marketplace list 2>&1 | Out-String
+if ($marketplaceList -notmatch [regex]::Escape($targetRoot)) {
+  & $codexExe plugin marketplace add $targetRoot
+} else {
+  Write-Host "Marketplace already registered: $targetRoot"
+}
+
+Write-Step "Installing bundled plugins from openai-bundled marketplace"
+$plugins = @("sites", "browser", "chrome", "computer-use", "latex")
+foreach ($plugin in $plugins) {
+  $selector = "$plugin@openai-bundled"
+  try {
+    & $codexExe plugin add $selector
+  } catch {
+    Write-Warning "Plugin add failed for $selector. It may already be installed or require manual uninstall of an old copy. $($_.Exception.Message)"
+  }
+}
+
+Write-Step "Refreshing Browser/Chrome Windows helper executables"
+$helperSource = Join-Path $targetRoot "plugins\chrome\extension-host\windows\x64\extension-host.exe"
+if (Test-Path -LiteralPath $helperSource) {
+  $helperTargets = @(
+    Join-Path $CodexHome "plugins\cache\openai-bundled\chrome\latest\extension-host\windows\x64\extension-host.exe"
+    Join-Path $CodexHome "plugins\cache\openai-bundled\chrome\26.602.71036\extension-host\windows\x64\extension-host.exe"
+  )
+  foreach ($target in $helperTargets) {
+    $parent = Split-Path -Parent $target
+    $null = New-Item -ItemType Directory -Force -Path $parent
+    Copy-Item -LiteralPath $helperSource -Destination $target -Force
+    Write-Host "Copied: $target"
+  }
+} else {
+  Write-Warning "Helper source missing: $helperSource"
+}
+
+Write-Step "Verification"
+& $codexExe plugin marketplace list
+& $codexExe plugin list
+
+Write-Host ""
+Write-Host "Done. Restart Codex Desktop to force the refreshed marketplace and plugins to load."
+
+
+```
+![](attachments/-解决codex安装或更新后插件不存在、Codex%20更新后、Browser%20Use%20或%20Chrome%20工具启动失败时使用。-20260610.ps1)
