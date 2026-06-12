@@ -7,11 +7,24 @@
     {% seo %}
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   </head>
-  <body>
+  <body class="layout-{{ page.layout | default: 'page' }}">
     <header class="site-header">
       <div class="wrap">
-        <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-        <p>{{ site.description }}</p>
+        <nav class="site-nav" aria-label="主导航">
+          <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+          <div class="site-links">
+            <a href="{{ '/' | relative_url }}">首页</a>
+            <a href="{{ '/feed.xml' | relative_url }}">订阅</a>
+            <a href="https://github.com/joysky77/MyBlog">GitHub</a>
+          </div>
+        </nav>
+        {% unless page.layout == "post" %}
+          <div class="hero">
+            <p class="eyebrow">Personal Notes</p>
+            <h1>{{ page.title | default: site.title }}</h1>
+            <p>{{ site.description }}</p>
+          </div>
+        {% endunless %}
       </div>
     </header>
 
@@ -21,7 +34,7 @@
 
     <footer class="site-footer">
       <div class="wrap">
-        <span>Powered by GitHub Pages and Jekyll.</span>
+        <span>{{ site.title }} · Powered by GitHub Pages and Jekyll.</span>
       </div>
     </footer>
   </body>

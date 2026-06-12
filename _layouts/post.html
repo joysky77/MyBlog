@@ -12,6 +12,9 @@ layout: default
       {% if page.author %}
         <span> · {{ page.author }}</span>
       {% endif %}
+      {% if page.categories and page.categories.size > 0 %}
+        <span> · {{ page.categories | join: " / " }}</span>
+      {% endif %}
     </p>
   </header>
 
@@ -20,4 +23,20 @@ layout: default
   </div>
 
   <p class="back-link"><a href="{{ '/' | relative_url }}">返回文章列表</a></p>
+
+  <section class="comments" aria-labelledby="comments-title">
+    <h2 id="comments-title">讨论</h2>
+    {% if site.comments.provider == "utterances" and site.comments.repo %}
+      <script src="https://utteranc.es/client.js"
+        repo="{{ site.comments.repo }}"
+        issue-term="{{ site.comments.issue_term | default: 'pathname' }}"
+        label="{{ site.comments.label | default: 'blog-comment' }}"
+        theme="{{ site.comments.theme | default: 'github-light' }}"
+        crossorigin="anonymous"
+        async>
+      </script>
+    {% else %}
+      <p class="comments-empty">评论功能还没有配置。请在 `_config.yml` 中设置 `comments.repo`。</p>
+    {% endif %}
+  </section>
 </article>

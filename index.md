@@ -3,17 +3,30 @@ layout: default
 title: 我的随便写写的 Blog
 ---
 
-# 文章列表
+<section class="intro">
+  <p>这里收集技术笔记、折腾记录和偶尔的随笔。文章会从 `_posts/` 自动发布，推送到 GitHub 后更新。</p>
+</section>
+
+<section class="section-heading">
+  <h2>最新文章</h2>
+  <span>{{ site.posts.size }} 篇</span>
+</section>
 
 {% if site.posts.size > 0 %}
   <div class="post-list">
     {% for post in site.posts %}
       <article class="post-preview">
-        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+        <div class="post-preview-meta">
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+          {% if post.categories and post.categories.size > 0 %}
+            <span>{{ post.categories | join: " / " }}</span>
+          {% endif %}
+        </div>
+        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
         {% if post.excerpt %}
           <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
         {% endif %}
+        <a class="read-more" href="{{ post.url | relative_url }}">阅读全文</a>
       </article>
     {% endfor %}
   </div>

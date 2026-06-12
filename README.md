@@ -26,3 +26,13 @@ categories: 随笔
 提交并推送到 `main` 分支后，GitHub Actions 会自动构建并发布到：
 
 https://joysky77.github.io/MyBlog/
+
+## 开启文章讨论
+
+文章页底部已经接入 Utterances 评论区。首次使用需要：
+
+1. 在 GitHub 仓库设置里启用 Issues。
+2. 安装 Utterances app：https://github.com/apps/utterances
+3. 确认 `_config.yml` 里的 `comments.repo` 是 `joysky77/MyBlog`。
+
+完成后，每篇文章会自动对应一个 GitHub Issue 作为讨论帖。

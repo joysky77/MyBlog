@@ -13,6 +13,13 @@ future: true
 author:
   name: joysky77
 
+comments:
+  provider: utterances
+  repo: joysky77/MyBlog
+  issue_term: pathname
+  label: blog-comment
+  theme: github-light
+
 plugins:
   - jekyll-feed
   - jekyll-sitemap
