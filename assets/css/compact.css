@@ -50,17 +50,159 @@
   color: var(--muted);
 }
 
+html[data-device="mobile"] body {
+  background-size: 30px 30px, 30px 30px, auto, auto, auto;
+}
+
+html[data-device="mobile"] body::before {
+  opacity: 0.45;
+}
+
+html[data-device="mobile"] .site-links a,
+html[data-device="tablet"] .site-links a {
+  min-height: 40px;
+}
+
+html[data-device="desktop"] .mobile-only {
+  display: none !important;
+}
+
+html[data-device="mobile"] .desktop-only {
+  display: none !important;
+}
+
 @media (max-width: 680px) {
+  body {
+    overflow-wrap: anywhere;
+  }
+
+  .wrap {
+    width: min(100% - 24px, 1080px);
+  }
+
   .site-header {
     padding-top: 18px;
-    padding-bottom: 34px;
+    padding-bottom: 24px;
   }
 
   .site-nav {
-    padding-bottom: 26px;
+    gap: 14px;
+    padding-bottom: 18px;
+  }
+
+  .site-title {
+    font-size: 20px;
+  }
+
+  .site-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .site-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 8px;
+    border-color: var(--line);
+    background: rgba(99, 231, 255, 0.05);
+    text-align: center;
+  }
+
+  .hero {
+    display: block;
   }
 
   .hero-copy h1 {
-    font-size: 36px;
+    font-size: 32px;
+  }
+
+  .hero-copy p {
+    font-size: 16px;
+  }
+
+  .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .button-link {
+    min-height: 44px;
+  }
+
+  .hero-console {
+    display: none;
+  }
+
+  .intro {
+    margin-bottom: 24px;
+  }
+
+  .intro,
+  .post-preview,
+  .post,
+  .subscribe-help {
+    padding: 18px;
+  }
+
+  .post {
+    max-width: none;
+  }
+
+  .post-header {
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+  }
+
+  .post-header h1 {
+    font-size: 30px;
+  }
+
+  .post-meta,
+  .post-preview time,
+  .post-preview-meta {
+    font-size: 12px;
+  }
+
+  .post-preview h3 {
+    font-size: 21px;
+  }
+
+  .signal-list div {
+    display: grid;
+    gap: 4px;
+  }
+
+  .signal-list dd {
+    text-align: left;
+  }
+
+  .comments {
+    margin-top: 30px;
+    padding-top: 22px;
+  }
+
+  .site-footer {
+    padding-bottom: max(34px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 681px) and (max-width: 1024px) {
+  .wrap {
+    width: min(100% - 34px, 1080px);
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-console {
+    max-width: 680px;
+  }
+
+  .post {
+    max-width: 900px;
+    padding: 34px;
   }
 }
