@@ -46,29 +46,6 @@
                   <a href="{{ '/categories/' | relative_url }}">分类目录</a>
                   <a href="{{ '/tags/' | relative_url }}">标签索引</a>
                 </nav>
-                {% assign latest_posts = site.posts | slice: 0, 3 %}
-                {% if latest_posts.size > 0 %}
-                  <div class="directory-section">
-                    <p class="directory-label">最近更新</p>
-                    {% for post in latest_posts %}
-                      <a class="directory-post" href="{{ post.url | relative_url }}">
-                        <span>{{ post.title }}</span>
-                        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%m-%d" }}</time>
-                      </a>
-                    {% endfor %}
-                  </div>
-                {% endif %}
-                {% if site.categories.size > 0 %}
-                  <div class="directory-section">
-                    <p class="directory-label">分类</p>
-                    <div class="directory-chips">
-                      {% assign sorted_categories = site.categories | sort %}
-                      {% for category in sorted_categories limit: 4 %}
-                        <a href="{{ '/categories/' | relative_url }}#category-{{ forloop.index }}">{{ category[0] }}</a>
-                      {% endfor %}
-                    </div>
-                  </div>
-                {% endif %}
               </div>
             </aside>
           </div>
