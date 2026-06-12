@@ -219,6 +219,10 @@ html[data-device="mobile"] .desktop-only {
     max-width: 680px;
   }
 
+  .directory-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .post {
     max-width: 900px;
     padding: 34px;
