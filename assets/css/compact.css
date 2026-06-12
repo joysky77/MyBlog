@@ -1,5 +1,5 @@
 .site-header {
-  padding: 18px 0 30px;
+  padding: 16px 0 24px;
 }
 
 .layout-post .site-header {
@@ -7,7 +7,7 @@
 }
 
 .site-nav {
-  padding: 8px 0 24px;
+  padding: 8px 0 20px;
 }
 
 .layout-post .site-nav {
@@ -16,21 +16,21 @@
 
 .hero {
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.56fr);
-  gap: 24px;
+  gap: 20px;
 }
 
 .hero-copy h1 {
-  font-size: clamp(30px, 4.6vw, 48px);
-  line-height: 1.08;
+  font-size: clamp(28px, 3.8vw, 42px);
+  line-height: 1.12;
 }
 
 .hero-copy p {
-  margin-top: 10px;
+  margin-top: 8px;
   font-size: 16px;
 }
 
 .hero-actions {
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
 .console-bar {
@@ -38,7 +38,7 @@
 }
 
 .console-body {
-  padding: 14px;
+  padding: 12px;
   font-size: 12px;
 }
 
@@ -55,7 +55,7 @@ html[data-device="mobile"] body {
 }
 
 html[data-device="mobile"] body::before {
-  opacity: 0.45;
+  opacity: 0.28;
 }
 
 html[data-device="mobile"] .site-links a,
@@ -82,12 +82,12 @@ html[data-device="mobile"] .desktop-only {
 
   .site-header {
     padding-top: 18px;
-    padding-bottom: 18px;
+    padding-bottom: 14px;
   }
 
   .site-nav {
-    gap: 14px;
-    padding-bottom: 18px;
+    gap: 12px;
+    padding-bottom: 14px;
   }
 
   .site-title {
@@ -104,7 +104,7 @@ html[data-device="mobile"] .desktop-only {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 9px 8px;
+    padding: 8px 8px;
     border-color: var(--line);
     background: rgba(99, 231, 255, 0.05);
     text-align: center;
@@ -115,7 +115,7 @@ html[data-device="mobile"] .desktop-only {
   }
 
   .hero-copy h1 {
-    font-size: 30px;
+    font-size: 28px;
   }
 
   .hero-copy p {
@@ -145,7 +145,7 @@ html[data-device="mobile"] .desktop-only {
   .subscribe-help,
   .taxonomy-hero,
   .taxonomy-empty {
-    padding: 16px;
+    padding: 14px;
   }
 
   .taxonomy-cloud {
@@ -174,7 +174,7 @@ html[data-device="mobile"] .desktop-only {
   }
 
   .post-header h1 {
-    font-size: 30px;
+    font-size: 28px;
   }
 
   .post-meta,
@@ -184,7 +184,8 @@ html[data-device="mobile"] .desktop-only {
   }
 
   .post-preview h3 {
-    font-size: 19px;
+    font-size: 16px;
+    line-height: 1.35;
   }
 
   .signal-list div {
