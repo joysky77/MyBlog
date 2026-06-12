@@ -30,6 +30,9 @@ title: 岁忆Blog
           {% if post.categories and post.categories.size > 0 %}
             <span>{{ post.categories | join: " / " }}</span>
           {% endif %}
+          {% if post.tags and post.tags.size > 0 %}
+            <span>#{{ post.tags | join: " #" }}</span>
+          {% endif %}
         </div>
         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
         {% if post.excerpt %}

@@ -18,10 +18,16 @@ layout: post
 title: "文章标题"
 date: 2026-06-12 10:00:00 +0800
 categories: 随笔
+tags: [生活, 记录]
 ---
 
 正文内容写在这里。
 ```
+
+`categories` 用于文章分类，`tags` 用于文章标签。发布后会自动出现在：
+
+- 分类目录：https://joysky77.github.io/MyBlog/categories/
+- 标签索引：https://joysky77.github.io/MyBlog/tags/
 
 提交并推送到 `main` 分支后，GitHub Actions 会自动构建并发布到：
 

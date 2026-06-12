@@ -3,6 +3,7 @@ layout: post
 title: "Codex 修复 Computer 和 Chrome 插件"
 date: 2026-06-10 10:00:00 +0800
 categories: 技术
+tags: [Codex, 插件, Windows]
 ---
 
 # 解决codex安装或更新后插件不存在、Codex 更新后、Browser Use 或 Chrome 工具启动失败时使用。
