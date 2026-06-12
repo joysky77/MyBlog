@@ -28,23 +28,217 @@ powershell -ExecutionPolicy Bypass -File "sync-openai-bundled.ps1"
 脚本内容如下：
 ```
 #Requires -Version 5.1
+[CmdletBinding()]
 param(
-  [string]$ResourcesPath = "C:\Program Files\WindowsApps\OpenAI.Codex_26.602.9276.0_x64__2p2nqsd0c76g0\app\resources",
-  [string]$CodexHome = "$env:USERPROFILE\.codex"
+  # Optional override. When omitted, the script discovers Codex Desktop resources.
+  [string]$ResourcesPath,
+
+  # Optional override. Defaults to the current user's Codex home.
+  [string]$CodexHome = (Join-Path $env:USERPROFILE ".codex"),
+
+  [string[]]$Plugins = @("sites", "browser", "chrome", "computer-use", "latex"),
+
+  [switch]$SkipExtensionHostStop
 )
 
 $ErrorActionPreference = "Stop"
 
-function Write-Step($Message) {
+function Write-Step {
+  param([Parameter(Mandatory = $true)][string]$Message)
   Write-Host ""
   Write-Host "==> $Message"
 }
 
-function Require-Path($Path, $Label) {
+function Require-Path {
+  param(
+    [Parameter(Mandatory = $true)][string]$Path,
+    [Parameter(Mandatory = $true)][string]$Label
+  )
+
   if (-not (Test-Path -LiteralPath $Path)) {
     throw "$Label not found: $Path"
   }
 }
+
+function Get-FirstExistingPath {
+  param([string[]]$Paths)
+
+  foreach ($path in $Paths) {
+    if ($path -and (Test-Path -LiteralPath $path)) {
+      return (Resolve-Path -LiteralPath $path).Path
+    }
+  }
+
+  return $null
+}
+
+function Copy-FilePlain {
+  param(
+    [Parameter(Mandatory = $true)][string]$Source,
+    [Parameter(Mandatory = $true)][string]$Destination
+  )
+
+  $parent = Split-Path -Parent $Destination
+  if ($parent) {
+    $null = New-Item -ItemType Directory -Force -Path $parent
+  }
+
+  $inputStream = [System.IO.File]::Open($Source, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::ReadWrite)
+  try {
+    $outputStream = [System.IO.File]::Open($Destination, [System.IO.FileMode]::Create, [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
+    try {
+      $inputStream.CopyTo($outputStream)
+    } finally {
+      $outputStream.Dispose()
+    }
+  } finally {
+    $inputStream.Dispose()
+  }
+}
+
+function Resolve-CodexResourcesPath {
+  param([string]$ExplicitPath)
+
+  $candidates = New-Object System.Collections.Generic.List[string]
+
+  if ($ExplicitPath) {
+    $candidates.Add($ExplicitPath)
+  }
+
+  if ($env:CODEX_RESOURCES_PATH) {
+    $candidates.Add($env:CODEX_RESOURCES_PATH)
+  }
+
+  if ($PSScriptRoot) {
+    $candidates.Add((Join-Path $PSScriptRoot "resources"))
+    $candidates.Add((Join-Path $PSScriptRoot "app\resources"))
+    $candidates.Add((Join-Path (Split-Path -Parent $PSScriptRoot) "resources"))
+    $candidates.Add((Join-Path (Split-Path -Parent $PSScriptRoot) "app\resources"))
+  }
+
+  $appxPackage = Get-AppxPackage -Name "OpenAI.Codex" -ErrorAction SilentlyContinue |
+    Sort-Object -Property Version -Descending |
+    Select-Object -First 1
+
+  if ($appxPackage -and $appxPackage.InstallLocation) {
+    $candidates.Add((Join-Path $appxPackage.InstallLocation "app\resources"))
+    $candidates.Add((Join-Path $appxPackage.InstallLocation "resources"))
+  }
+
+  $programFiles = ${env:ProgramFiles}
+  if ($programFiles) {
+    $windowsApps = Join-Path $programFiles "WindowsApps"
+    if (Test-Path -LiteralPath $windowsApps) {
+      Get-ChildItem -LiteralPath $windowsApps -Directory -Filter "OpenAI.Codex_*" -ErrorAction SilentlyContinue |
+        Sort-Object -Property LastWriteTime -Descending |
+        ForEach-Object {
+          $candidates.Add((Join-Path $_.FullName "app\resources"))
+          $candidates.Add((Join-Path $_.FullName "resources"))
+        }
+    }
+  }
+
+  $resolved = Get-FirstExistingPath -Paths $candidates.ToArray()
+  if (-not $resolved) {
+    throw "Could not find Codex Desktop resources. Pass -ResourcesPath or set CODEX_RESOURCES_PATH."
+  }
+
+  return $resolved
+}
+
+function Get-CodexCli {
+  param([Parameter(Mandatory = $true)][string]$ResolvedResourcesPath)
+
+  $codexExe = Join-Path $ResolvedResourcesPath "codex.exe"
+  Require-Path $codexExe "Codex CLI"
+
+  # Windows blocks direct execution from WindowsApps. Copy to a user-writable
+  # versioned temp folder together with adjacent DLLs.
+  if ($codexExe -like "*\WindowsApps\*") {
+    $version = "unknown"
+    try {
+      $fileVersion = (Get-Item -LiteralPath $codexExe).VersionInfo.FileVersion
+      if ($fileVersion) {
+        $version = ($fileVersion -replace '[^\w\.-]', '_')
+      }
+    } catch {
+      $version = ((Get-Item -LiteralPath $codexExe).LastWriteTimeUtc.ToString("yyyyMMddHHmmss"))
+    }
+
+    $fallbackDir = Join-Path $env:TEMP (Join-Path "codex-cli" $version)
+    $fallbackExe = Join-Path $fallbackDir "codex.exe"
+
+    Write-Host "WindowsApps detected: copying codex.exe to $fallbackExe"
+    $null = New-Item -ItemType Directory -Force -Path $fallbackDir
+    Copy-FilePlain -Source $codexExe -Destination $fallbackExe
+
+    $srcDir = Split-Path -Parent $codexExe
+    Get-ChildItem -LiteralPath $srcDir -Filter "*.dll" -ErrorAction SilentlyContinue | ForEach-Object {
+      Copy-FilePlain -Source $_.FullName -Destination (Join-Path $fallbackDir $_.Name)
+    }
+
+    return $fallbackExe
+  }
+
+  return $codexExe
+}
+
+function Invoke-Codex {
+  param(
+    [Parameter(Mandatory = $true)][string]$CodexExe,
+    [Parameter(Mandatory = $true)][string[]]$Arguments,
+    [switch]$AllowFailure
+  )
+
+  & $CodexExe @Arguments 2>&1 | ForEach-Object {
+    Write-Host $_
+  }
+  $exitCode = $LASTEXITCODE
+
+  if (($exitCode -ne 0) -and (-not $AllowFailure)) {
+    throw "codex $($Arguments -join ' ') failed with exit code $exitCode"
+  }
+
+  return [int]$exitCode
+}
+
+function Stop-CodexExtensionHosts {
+  param([Parameter(Mandatory = $true)][string]$CodexHome)
+
+  $normalizedHome = $null
+  if (Test-Path -LiteralPath $CodexHome) {
+    $normalizedHome = (Resolve-Path -LiteralPath $CodexHome).Path
+  }
+
+  $processes = Get-Process -Name "extension-host" -ErrorAction SilentlyContinue
+  foreach ($process in $processes) {
+    $processPath = $null
+    try {
+      $processPath = $process.Path
+    } catch {
+      $processPath = $null
+    }
+
+    $looksLikeCodexHost = $false
+    if ($processPath) {
+      $looksLikeCodexHost =
+        ($normalizedHome -and $processPath.StartsWith($normalizedHome, [System.StringComparison]::OrdinalIgnoreCase)) -or
+        ($processPath -match "\\OpenAI\.Codex_.*\\")
+    }
+
+    if ($looksLikeCodexHost) {
+      Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
+      Write-Host "Stopped extension-host.exe (PID $($process.Id))"
+    } elseif ($processPath) {
+      Write-Host "Skipped non-Codex extension-host.exe: $processPath"
+    } else {
+      Write-Warning "Skipped extension-host.exe PID $($process.Id) because its path could not be inspected."
+    }
+  }
+}
+
+$ResourcesPath = Resolve-CodexResourcesPath -ExplicitPath $ResourcesPath
+$CodexHome = [System.IO.Path]::GetFullPath($CodexHome)
 
 $sourceRoot = Join-Path $ResourcesPath "plugins\openai-bundled"
 $marketplaceJson = Join-Path $sourceRoot ".agents\plugins\marketplace.json"
@@ -54,64 +248,55 @@ Require-Path $ResourcesPath "Codex resources directory"
 Require-Path $sourceRoot "OpenAI bundled marketplace source"
 Require-Path $marketplaceJson "OpenAI bundled marketplace.json"
 
-# codex.exe inside WindowsApps cannot be executed directly (Windows blocks it).
-# Copy it to a writable temporary location before use.
-$codexExe = Join-Path $ResourcesPath "codex.exe"
-$codexExeFallback = Join-Path $env:TEMP "codex-cli\codex.exe"
-Require-Path $codexExe "Codex CLI (source)"
+$codexExe = Get-CodexCli -ResolvedResourcesPath $ResourcesPath
+Require-Path $codexExe "Codex CLI executable"
 
-if ($codexExe -like "*WindowsApps*") {
-  Write-Host "WindowsApps detected: copying codex.exe to $codexExeFallback"
-  $null = New-Item -ItemType Directory -Force -Path (Split-Path -Parent $codexExeFallback)
-  Copy-Item -LiteralPath $codexExe -Destination $codexExeFallback -Force
-  # Copy any adjacent DLLs codex.exe may need at runtime
-  $srcDir = Split-Path -Parent $codexExe
-  Get-ChildItem -Path $srcDir -Filter "*.dll" -ErrorAction SilentlyContinue | ForEach-Object {
-    $dst = Join-Path (Split-Path -Parent $codexExeFallback) $_.Name
-    Copy-Item -LiteralPath $_.FullName -Destination $dst -Force
-  }
-  $codexExe = $codexExeFallback
-  Write-Host "Using codex.exe from: $codexExe"
+if (-not $SkipExtensionHostStop) {
+  Write-Step "Stopping Codex extension-host.exe processes so helper binaries can be refreshed"
+  Stop-CodexExtensionHosts -CodexHome $CodexHome
 }
-Require-Path $codexExe "Codex CLI (executable)"
 
-Write-Step "Stopping extension-host.exe so helper binaries can be refreshed"
-Get-Process extension-host -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-
-Write-Step "Copying OpenAI bundled marketplace into user .codex"
-New-Item -ItemType Directory -Force -Path $targetRoot | Out-Null
+Write-Step "Copying OpenAI bundled marketplace into user Codex home"
+$null = New-Item -ItemType Directory -Force -Path $targetRoot
 & robocopy $sourceRoot $targetRoot /E /COPY:DAT /DCOPY:DAT /R:1 /W:1 /NFL /NDL /NP
 if ($LASTEXITCODE -gt 7) {
   throw "robocopy failed with exit code $LASTEXITCODE"
 }
 
-Write-Step "Registering local marketplace in .codex/config.toml"
-$marketplaceList = & $codexExe plugin marketplace list 2>&1 | Out-String
+Write-Step "Registering local marketplace"
+$marketplaceList = (& $codexExe plugin marketplace list 2>&1 | Out-String)
 if ($marketplaceList -notmatch [regex]::Escape($targetRoot)) {
-  & $codexExe plugin marketplace add $targetRoot
+  Invoke-Codex -CodexExe $codexExe -Arguments @("plugin", "marketplace", "add", $targetRoot) | Out-Null
 } else {
   Write-Host "Marketplace already registered: $targetRoot"
 }
 
 Write-Step "Installing bundled plugins from openai-bundled marketplace"
-$plugins = @("sites", "browser", "chrome", "computer-use", "latex")
-foreach ($plugin in $plugins) {
+foreach ($plugin in $Plugins) {
   $selector = "$plugin@openai-bundled"
-  try {
-    & $codexExe plugin add $selector
-  } catch {
-    Write-Warning "Plugin add failed for $selector. It may already be installed or require manual uninstall of an old copy. $($_.Exception.Message)"
+  $exitCode = Invoke-Codex -CodexExe $codexExe -Arguments @("plugin", "add", $selector) -AllowFailure
+  if ($exitCode -ne 0) {
+    Write-Warning "Plugin add failed for $selector with exit code $exitCode. It may already be installed or may require manual cleanup of an older copy."
   }
 }
 
 Write-Step "Refreshing Browser/Chrome Windows helper executables"
 $helperSource = Join-Path $targetRoot "plugins\chrome\extension-host\windows\x64\extension-host.exe"
 if (Test-Path -LiteralPath $helperSource) {
-  $helperTargets = @(
-    Join-Path $CodexHome "plugins\cache\openai-bundled\chrome\latest\extension-host\windows\x64\extension-host.exe"
-    Join-Path $CodexHome "plugins\cache\openai-bundled\chrome\26.602.71036\extension-host\windows\x64\extension-host.exe"
-  )
-  foreach ($target in $helperTargets) {
+  $helperTargets = New-Object System.Collections.Generic.List[string]
+  $chromeCacheRoot = Join-Path $CodexHome "plugins\cache\openai-bundled\chrome"
+
+  $helperTargets.Add((Join-Path $chromeCacheRoot "latest\extension-host\windows\x64\extension-host.exe"))
+
+  if (Test-Path -LiteralPath $chromeCacheRoot) {
+    Get-ChildItem -LiteralPath $chromeCacheRoot -Directory -ErrorAction SilentlyContinue |
+      Where-Object { $_.Name -ne "latest" } |
+      ForEach-Object {
+        $helperTargets.Add((Join-Path $_.FullName "extension-host\windows\x64\extension-host.exe"))
+      }
+  }
+
+  foreach ($target in ($helperTargets.ToArray() | Select-Object -Unique)) {
     $parent = Split-Path -Parent $target
     $null = New-Item -ItemType Directory -Force -Path $parent
     Copy-Item -LiteralPath $helperSource -Destination $target -Force
@@ -122,11 +307,11 @@ if (Test-Path -LiteralPath $helperSource) {
 }
 
 Write-Step "Verification"
-& $codexExe plugin marketplace list
-& $codexExe plugin list
+Invoke-Codex -CodexExe $codexExe -Arguments @("plugin", "marketplace", "list") | Out-Null
+Invoke-Codex -CodexExe $codexExe -Arguments @("plugin", "list") | Out-Null
 
 Write-Host ""
-Write-Host "Done. Restart Codex Desktop to force the refreshed marketplace and plugins to load."
+Write-Host "Done. Restart Codex Desktop to force the plugin host to reload."
 
 
 ```

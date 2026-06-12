@@ -5,21 +5,12 @@ title: 岁忆Blog
 
 <section class="intro tech-panel">
   <div>
-    <h2>Markdown 驱动</h2>
     <p>这里收集折腾记录和偶尔的随笔。文章会从 `_posts/` 自动发布，推送到 GitHub 后更新。</p>
   </div>
   <dl class="signal-list">
     <div>
       <dt>BUILD</dt>
-      <dd>GitHub Actions</dd>
-    </div>
-    <div>
-      <dt>STACK</dt>
-      <dd>Jekyll · Markdown</dd>
-    </div>
-    <div>
-      <dt>FEED</dt>
-      <dd>RSS Ready</dd>
+      <dd>GitHub Actions Jekyll · Markdown</dd>
     </div>
   </dl>
 </section>
