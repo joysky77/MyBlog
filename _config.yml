@@ -18,7 +18,7 @@ comments:
   repo: joysky77/MyBlog
   issue_term: pathname
   label: blog-comment
-  theme: github-light
+  theme: github-dark
 
 plugins:
   - jekyll-feed
