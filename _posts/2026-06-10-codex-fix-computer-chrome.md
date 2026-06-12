@@ -1,11 +1,13 @@
 ---
 layout: post
-title: codex修复computer&chrome
+title: "Codex 修复 Computer 和 Chrome 插件"
+date: 2026-06-10 10:00:00 +0800
+categories: 技术
 ---
 
 # 解决codex安装或更新后插件不存在、Codex 更新后、Browser Use 或 Chrome 工具启动失败时使用。
 
-# 方法一#
+## 方法一
 
 ```
 解决skill：
@@ -15,7 +17,8 @@ title: codex修复computer&chrome
 3. 修复 Browser Use / Chrome 依赖的 Windows helper binaries，只复制最新的几个可执行文件
 ```
 
-# 方法二#
+## 方法二
+
 使用脚本 sync-openai-bundled.ps1，把下面内容复制保存到.ps1,
 进入powershell,运行：
 ```
@@ -127,4 +130,3 @@ Write-Host "Done. Restart Codex Desktop to force the refreshed marketplace and p
 
 
 ```
-![](attachments/-解决codex安装或更新后插件不存在、Codex%20更新后、Browser%20Use%20或%20Chrome%20工具启动失败时使用。-20260610.ps1)

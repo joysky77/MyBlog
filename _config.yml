@@ -1,20 +1,25 @@
-# 基本配置
 title: MyBlog
-description: 随便谢谢
-url: "https://github.com/joysky77/MyBlog/"
-baseurl: ""
+description: 我的随便写写的 Blog
+url: "https://joysky77.github.io"
+baseurl: "/MyBlog"
+lang: zh-CN
+timezone: Asia/Shanghai
 
-# Jekyll 配置
 markdown: kramdown
 highlighter: rouge
 permalink: /:year/:month/:day/:title/
-
-# 允许未来日期文章
 future: true
-timezone: Asia/Shanghai
 
-# 插件
+author:
+  name: joysky77
+
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - _drafts
