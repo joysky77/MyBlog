@@ -20,9 +20,27 @@
         </nav>
         {% unless page.layout == "post" %}
           <div class="hero">
-            <p class="eyebrow">Personal Notes</p>
-            <h1>{{ page.title | default: site.title }}</h1>
-            <p>{{ site.description }}</p>
+            <div class="hero-copy">
+              <h1>{{ page.title | default: site.title }}</h1>
+              <p>{{ site.description }}</p>
+              <div class="hero-actions">
+                <a class="button-link" href="{{ '/' | relative_url }}#latest">查看文章</a>
+                <a class="button-link button-link-ghost" href="{{ '/subscribe/' | relative_url }}">RSS 订阅</a>
+              </div>
+            </div>
+            <div class="hero-console" aria-hidden="true">
+              <div class="console-bar">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="console-body">
+                <p><span class="token">$</span> git push origin main</p>
+                <p><span class="muted-line">deploy:</span> github-pages build queued</p>
+                <p><span class="muted-line">jekyll:</span> {{ site.posts.size }} posts indexed</p>
+                <p><span class="token">status</span> published · automated · markdown</p>
+              </div>
+            </div>
           </div>
         {% endunless %}
       </div>
