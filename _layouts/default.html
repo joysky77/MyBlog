@@ -33,21 +33,6 @@
                 <a class="button-link button-link-ghost" href="{{ '/subscribe/' | relative_url }}">RSS 订阅</a>
               </div>
             </div>
-            <aside class="hero-console blog-directory" aria-label="博客目录">
-              <div class="console-bar">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <div class="console-body">
-                <p class="directory-title"><span class="token">目录</span> {{ site.posts.size }} 篇文章</p>
-                <nav class="directory-links" aria-label="博客目录链接">
-                  <a href="{{ '/' | relative_url }}#latest">最新文章</a>
-                  <a href="{{ '/categories/' | relative_url }}">分类目录</a>
-                  <a href="{{ '/tags/' | relative_url }}">标签索引</a>
-                </nav>
-              </div>
-            </aside>
           </div>
         {% endunless %}
       </div>
