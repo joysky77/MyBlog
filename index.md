@@ -4,9 +4,11 @@ title: 岁忆Blog
 ---
 
 <section class="intro tech-panel">
-  <div>
-    <p>这里收集折腾记录和偶尔的随笔。文章会从 `_posts/` 自动发布，推送到 GitHub 后更新。</p>
-  </div>
+<dl>
+    <div>
+      <p>这里收集折腾记录和偶尔的随笔。文章会从 `_posts/` 自动发布，推送到 GitHub 后更新。</p>
+    </div>
+</dl>
   <dl class="signal-list">
     <div>
       <dt>BUILD</dt>
