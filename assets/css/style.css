@@ -130,9 +130,13 @@ a:hover {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.56fr);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 20px;
+}
+
+.hero .hero-console {
+  display: none;
 }
 
 .hero-copy h1 {
