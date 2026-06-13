@@ -10,7 +10,7 @@ title: 岁忆Blog
   <dl class="signal-list">
     <div>
       <dt>BUILD</dt>
-      <dd>GitHub Actions Jekyll · Markdown</dd>
+      <dd>Jekyll · Markdown</dd>
     </div>
   </dl>
 </section>
