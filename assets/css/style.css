@@ -130,7 +130,7 @@ a:hover {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.56fr);
   align-items: center;
   gap: 20px;
 }
@@ -160,6 +160,25 @@ a:hover {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 14px;
+}
+
+.hero-note {
+  align-self: stretch;
+  display: grid;
+  align-content: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(12, 23, 39, 0.76), rgba(8, 17, 31, 0.7));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.hero-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
 }
 
 .hero-console {
