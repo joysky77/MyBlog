@@ -6,7 +6,7 @@ title: 岁忆Blog
 <div class="blog-shell">
   <aside class="blog-sidebar" aria-label="博客目录">
     <div class="sidebar-panel">
-      <p class="sidebar-kicker">INDEX</p>
+      <p class="sidebar-kicker">目录</p>
       <a class="sidebar-link" href="{{ '/' | relative_url }}#latest">
         <span>最新文章</span>
         <strong>{{ site.posts.size }}</strong>
@@ -23,7 +23,7 @@ title: 岁忆Blog
 
     {% if site.posts.size > 0 %}
       <div class="sidebar-panel sidebar-panel-muted">
-        <p class="sidebar-kicker">RECENT</p>
+        <p class="sidebar-kicker">近期</p>
         <nav class="sidebar-recent" aria-label="近期文章">
           {% for post in site.posts limit: 5 %}
             <a href="{{ post.url | relative_url }}">
@@ -47,7 +47,7 @@ title: 岁忆Blog
         {% for post in site.posts %}
           <article class="post-preview">
             <div class="post-preview-meta">
-              <span class="log-prefix">POST</span>
+              <span class="log-prefix">文章</span>
               <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
               {% if post.categories and post.categories.size > 0 %}
                 <span>{{ post.categories | join: " / " }}</span>

@@ -34,13 +34,13 @@
               {% endif %}
               <div class="hero-actions">
                 <a class="button-link" href="{{ '/' | relative_url }}#latest">查看文章</a>
-                <a class="button-link button-link-ghost" href="{{ '/subscribe/' | relative_url }}">RSS 订阅</a>
+                <a class="button-link button-link-ghost" href="{{ '/subscribe/' | relative_url }}">订阅</a>
               </div>
             </div>
             {% if page.url == "/" %}
               <aside class="hero-note" aria-label="博客说明">
                 <p>这里收集折腾记录和偶尔的随笔。</p>
-                <p class="hero-meta">{{ site.posts.size }} 篇文章 · {{ site.tags.size }} 个标签 · Jekyll</p>
+                <p class="hero-meta">{{ site.posts.size }} 篇文章 · {{ site.tags.size }} 个标签</p>
               </aside>
             {% endif %}
           </div>
@@ -54,7 +54,9 @@
 
     <footer class="site-footer">
       <div class="wrap">
-        <span>{{ site.title }} · Powered by GitHub Pages and Jekyll.</span>
+        {% unless page.url == "/" %}
+          <span>{{ site.title }} · Powered by GitHub Pages and Jekyll.</span>
+        {% endunless %}
       </div>
     </footer>
   </body>
