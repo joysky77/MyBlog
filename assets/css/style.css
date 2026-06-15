@@ -171,12 +171,14 @@ a:hover {
   align-self: stretch;
   display: grid;
   align-content: center;
-  gap: 14px;
+  gap: 16px;
   padding: 16px 18px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: linear-gradient(180deg, rgba(12, 23, 39, 0.76), rgba(8, 17, 31, 0.7));
-  box-shadow: var(--shadow);
+  background:
+    linear-gradient(135deg, rgba(99, 231, 255, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(12, 23, 39, 0.82), rgba(8, 17, 31, 0.72));
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
 }
 
@@ -184,6 +186,41 @@ a:hover {
   margin: 0;
   color: var(--muted);
   font-size: 15px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.hero-stats div {
+  min-width: 0;
+  padding: 10px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(99, 231, 255, 0.05);
+}
+
+.hero-stats dt {
+  margin: 0 0 4px;
+  color: var(--green);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.hero-stats dd {
+  overflow: hidden;
+  margin: 0;
+  color: var(--text);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .hero-console {
