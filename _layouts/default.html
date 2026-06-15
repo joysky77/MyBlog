@@ -10,11 +10,13 @@
     <link rel="stylesheet" href="{{ '/assets/css/compact.css' | relative_url }}">
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   </head>
-  <body class="layout-{{ page.layout | default: 'page' }}">
+  <body class="layout-{{ page.layout | default: 'page' }}{% if page.url == "/" %} page-home{% endif %}">
     <header class="site-header">
       <div class="wrap">
         <nav class="site-nav" aria-label="主导航">
-          <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+          {% unless page.url == "/" %}
+            <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+          {% endunless %}
           <div class="site-links">
             <a href="{{ '/' | relative_url }}">首页</a>
             <a href="{{ '/categories/' | relative_url }}">分类</a>
@@ -35,7 +37,7 @@
             </div>
             {% if page.url == "/" %}
               <aside class="hero-note" aria-label="博客说明">
-                <p>这里收集折腾记录和偶尔的随笔。文章会从 `_posts/` 自动发布，推送到 GitHub 后更新。</p>
+                <p>这里收集折腾记录和偶尔的随笔。</p>
                 <dl class="signal-list">
                   <div>
                     <dt>BUILD</dt>

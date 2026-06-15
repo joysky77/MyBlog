@@ -85,6 +85,11 @@ a:hover {
   padding-bottom: 0;
 }
 
+.page-home .site-nav {
+  justify-content: flex-end;
+  padding-bottom: 8px;
+}
+
 .site-title {
   position: relative;
   display: inline-flex;
