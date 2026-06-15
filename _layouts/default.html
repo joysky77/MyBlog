@@ -38,20 +38,7 @@
             {% if page.url == "/" %}
               <aside class="hero-note" aria-label="博客说明">
                 <p>这里收集折腾记录和偶尔的随笔。</p>
-                <dl class="hero-stats" aria-label="博客状态">
-                  <div>
-                    <dt>POSTS</dt>
-                    <dd>{{ site.posts.size }}</dd>
-                  </div>
-                  <div>
-                    <dt>TAGS</dt>
-                    <dd>{{ site.tags.size }}</dd>
-                  </div>
-                  <div>
-                    <dt>BUILD</dt>
-                    <dd>Jekyll</dd>
-                  </div>
-                </dl>
+                <p class="hero-meta">{{ site.posts.size }} 篇文章 · {{ site.tags.size }} 个标签 · Jekyll</p>
               </aside>
             {% endif %}
           </div>
