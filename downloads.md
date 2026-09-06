@@ -31,6 +31,9 @@ permalink: /downloads/
                 {% endfor %}
               </div>
             {% endif %}
+            {% if app.checksum %}
+              <p class="download-checksum">{{ app.checksum }}</p>
+            {% endif %}
           </div>
         </div>
         <div class="download-actions">
@@ -41,6 +44,9 @@ permalink: /downloads/
           {% endif %}
           {% if app.post_url %}
             <a class="button-link button-link-ghost" href="{{ app.post_url | relative_url }}">查看介绍</a>
+          {% endif %}
+          {% if app.docs_url %}
+            <a class="button-link button-link-ghost" href="{{ app.docs_url | relative_url }}">使用说明</a>
           {% endif %}
           {% if app.source_url %}
             <a class="button-link button-link-ghost" href="{{ app.source_url }}">源码</a>
