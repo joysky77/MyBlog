@@ -1,0 +1,14 @@
+- name: 通知日历同步
+  version: "1.0.0"
+  platform: Android
+  icon: /assets/calsync-icon.webp
+  summary: 从系统通知中识别会议、活动和截止时间，并自动写入 Android 日历。
+  status: GitHub Releases
+  download_url: https://github.com/joysky77/calsync/releases
+  source_url: https://github.com/joysky77/calsync
+  post_url: /2026/06/19/calsync/
+  tags:
+    - Android
+    - 日历
+    - 通知
+    - AI

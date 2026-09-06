@@ -15,6 +15,10 @@ title: 岁忆Blog
         <span>分类目录</span>
         <strong>{{ site.categories.size }}</strong>
       </a>
+      <a class="sidebar-link" href="{{ '/downloads/' | relative_url }}">
+        <span>软件下载</span>
+        <strong>{{ site.data.software.size }}</strong>
+      </a>
       <a class="sidebar-link" href="{{ '/tags/' | relative_url }}">
         <span>标签索引</span>
         <strong>{{ site.tags.size }}</strong>
