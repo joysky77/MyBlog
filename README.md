@@ -42,3 +42,28 @@ https://joysky77.github.io/MyBlog/
 3. 确认 `_config.yml` 里的 `comments.repo` 是 `joysky77/MyBlog`。
 
 完成后，每篇文章会自动对应一个 GitHub Issue 作为讨论帖。
+
+## 发布闭源软件下载
+
+把安装包放到 `assets/downloads/` 下，例如：
+
+```text
+assets/downloads/myapp/myapp-1.0.0-windows.zip
+```
+
+然后在 `_data/software.yml` 添加：
+
+```yml
+- name: 我的软件
+  version: "1.0.0"
+  platform: Windows
+  icon: /assets/myapp-icon.webp
+  summary: 软件简介。
+  status: Direct Download
+  local_file: /assets/downloads/myapp/myapp-1.0.0-windows.zip
+  tags:
+    - Windows
+    - 工具
+```
+
+提交并推送后，下载页会自动出现该软件。

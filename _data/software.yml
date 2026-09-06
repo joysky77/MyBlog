@@ -12,3 +12,15 @@
     - 日历
     - 通知
     - AI
+
+# 闭源软件直接放在本博客仓库时，可以按下面格式添加：
+# - name: 我的闭源软件
+#   version: "1.0.0"
+#   platform: Windows
+#   icon: /assets/myapp-icon.webp
+#   summary: 软件简介。
+#   status: Direct Download
+#   local_file: /assets/downloads/myapp/myapp-1.0.0-windows.zip
+#   tags:
+#     - Windows
+#     - 工具

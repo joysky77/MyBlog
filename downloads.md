@@ -5,7 +5,7 @@ permalink: /downloads/
 ---
 
 <section class="download-hero">
-  <p>这里放我整理、开发或维护的软件工具。下载链接优先指向 GitHub Releases，便于保留版本记录和源码说明。</p>
+  <p>这里放我整理、开发或维护的软件工具。闭源软件可以直接把安装包放在博客仓库的 `assets/downloads/` 目录中，再在软件清单里配置下载路径。</p>
 </section>
 
 {% if site.data.software.size > 0 %}
@@ -34,7 +34,11 @@ permalink: /downloads/
           </div>
         </div>
         <div class="download-actions">
-          <a class="button-link" href="{{ app.download_url }}">下载 / Releases</a>
+          {% if app.local_file %}
+            <a class="button-link" href="{{ app.local_file | relative_url }}" download>下载</a>
+          {% elsif app.download_url %}
+            <a class="button-link" href="{{ app.download_url }}">下载 / Releases</a>
+          {% endif %}
           {% if app.post_url %}
             <a class="button-link button-link-ghost" href="{{ app.post_url | relative_url }}">查看介绍</a>
           {% endif %}
