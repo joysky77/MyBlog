@@ -14,11 +14,11 @@
     - AI
 
 - name: 启源输入
-  version: "0.2.3"
+  version: "0.2.4"
   platform: Android
   summary: 支持多种拼音和双拼方案、触摸与实体键盘、词库管理、快捷输入和多端同步的 Android 输入法。
   status: GitHub Releases
-  download_url: https://github.com/joysky77/MyBlog/releases/tag/qiyuan-ime-android-v0.2.3
+  download_url: https://github.com/joysky77/MyBlog/releases/tag/qiyuan-ime-android-v0.2.4
   docs_url: /2026/09/13/qiyuan-ime-android/
   checksum: "SHA256 文件随 Release 提供"
   tags:

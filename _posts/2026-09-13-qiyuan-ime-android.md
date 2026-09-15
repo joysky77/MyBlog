@@ -1,22 +1,22 @@
 ---
 layout: post
-title: "启源输入 Android 0.2.3：下载与使用说明"
+title: "启源输入 Android 0.2.4：下载与使用说明"
 date: 2026-09-13 11:15:00 +0800
 categories: 软件
 tags: [Android, 输入法, 启源输入, 双拼]
 ---
 
-启源输入 Android 版是一款基于 RIME/librime 的中文输入法，兼顾屏幕触摸输入和蓝牙、USB 实体键盘。当前版本为 **0.2.3**，支持 Android 5.0 及以上系统。
+启源输入 Android 版是一款基于 RIME/librime 的中文输入法，兼顾屏幕触摸输入和蓝牙、USB 实体键盘。当前版本为 **0.2.4**，支持 Android 5.0 及以上系统。
 
 ## 下载
 
 大多数近年的安卓手机和平板使用 `arm64-v8a`，通常下载第一项即可。若安装时提示不兼容，再根据设备 CPU 选择其他版本。
 
-- [下载 0.2.3 arm64-v8a（常见手机和平板）](https://github.com/joysky77/MyBlog/releases/download/qiyuan-ime-android-v0.2.3/com.yangy.qiyuan.ime-0.2.3-arm64-v8a-release.apk)
-- [下载 0.2.3 armeabi-v7a（较旧的 32 位 ARM 设备）](https://github.com/joysky77/MyBlog/releases/download/qiyuan-ime-android-v0.2.3/com.yangy.qiyuan.ime-0.2.3-armeabi-v7a-release.apk)
-- [下载 0.2.3 x86_64（64 位 x86 设备或模拟器）](https://github.com/joysky77/MyBlog/releases/download/qiyuan-ime-android-v0.2.3/com.yangy.qiyuan.ime-0.2.3-x86_64-release.apk)
-- [下载 0.2.3 x86（32 位 x86 设备或模拟器）](https://github.com/joysky77/MyBlog/releases/download/qiyuan-ime-android-v0.2.3/com.yangy.qiyuan.ime-0.2.3-x86-release.apk)
-- [查看 SHA-256 校验值](https://github.com/joysky77/MyBlog/releases/download/qiyuan-ime-android-v0.2.3/SHA256SUMS.txt)
+- [下载 0.2.4 arm64-v8a（常见手机和平板）](https://github.com/joysky77/MyBlog/releases/download/qiyuan-ime-android-v0.2.4/com.yangy.qiyuan.ime-0.2.4-arm64-v8a-release.apk)
+- [下载 0.2.4 armeabi-v7a（较旧的 32 位 ARM 设备）](https://github.com/joysky77/MyBlog/releases/download/qiyuan-ime-android-v0.2.4/com.yangy.qiyuan.ime-0.2.4-armeabi-v7a-release.apk)
+- [下载 0.2.4 x86_64（64 位 x86 设备或模拟器）](https://github.com/joysky77/MyBlog/releases/download/qiyuan-ime-android-v0.2.4/com.yangy.qiyuan.ime-0.2.4-x86_64-release.apk)
+- [下载 0.2.4 x86（32 位 x86 设备或模拟器）](https://github.com/joysky77/MyBlog/releases/download/qiyuan-ime-android-v0.2.4/com.yangy.qiyuan.ime-0.2.4-x86-release.apk)
+- [查看 SHA-256 校验值](https://github.com/joysky77/MyBlog/releases/download/qiyuan-ime-android-v0.2.4/SHA256SUMS.txt)
 
 四个 APK 均已通过 Android APK Signature Scheme v1、v2 签名校验，发布证书 SHA-256 为：
 
@@ -44,7 +44,7 @@ B1057668E0855A43F0D9A1B7E5A396E4E2CC7DC91B923C3D222682684C70464D
 
 ## 升级前请先备份
 
-0.2.3 与此前正式版使用同一发布证书，可以直接覆盖安装并保留应用数据。稳妥起见，升级或卸载前请先在“词库与通讯录”中导出用户词库，并在“同步与多端”中完成一次同步。
+0.2.4 与此前正式版使用同一发布证书，可以直接覆盖安装并保留应用数据。稳妥起见，升级或卸载前请先在“词库与通讯录”中导出用户词库，并在“同步与多端”中完成一次同步。
 
 如果系统提示签名不一致，不要急着卸载旧版。请先完成词库备份，否则卸载应用可能同时清除应用私有数据。
 
