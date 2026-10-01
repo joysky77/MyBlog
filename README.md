@@ -2,6 +2,20 @@
 
 这是一个基于 GitHub Pages + Jekyll 的个人博客。
 
+## 项目目录说明
+
+- `_posts/`：已发布的 Markdown 文章，文件名使用 `YYYY-MM-DD-title.md`。
+- `_drafts/`：尚未发布的文章草稿，不参与线上构建。
+- `_data/`：Jekyll 结构化数据，目前用于维护软件下载清单。
+- `_layouts/`：网站页面和文章布局模板。
+- `assets/`：样式、图片、软件图标及其他静态资源。
+- `.github/workflows/`：GitHub Pages 自动构建和部署流程。
+- `_config.yml`：Jekyll 站点、链接、评论和构建配置。
+- `index.md`、`categories.md`、`tags.md`、`downloads.md`、`subscribe.md`：首页及各功能页面入口。
+- `Gemfile`：本地 Jekyll 构建依赖说明。
+
+新增目录时应先确认其用途与以上结构一致，并同步补充本节说明。
+
 ## 发布新文章
 
 在 `_posts/` 目录中新建 Markdown 文件，文件名使用：
