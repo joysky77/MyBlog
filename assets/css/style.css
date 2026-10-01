@@ -847,12 +847,12 @@ h3 {
 }
 
 .app-screenshot {
-  width: min(100%, 380px);
+  width: min(100%, 280px);
   margin: 24px auto 30px;
 }
 
 .app-screenshot-wide {
-  width: min(100%, 460px);
+  width: min(100%, 320px);
 }
 
 .app-screenshot img {
