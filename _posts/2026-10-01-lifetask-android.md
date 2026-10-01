@@ -12,6 +12,11 @@ LifeTask 是一款离线优先的 Android 个人任务推进应用。它把随�
 
 当前发布版本为 **0.32.0**，最低支持 Android 8.0。
 
+<figure class="app-screenshot">
+  <img src="{{ '/assets/lifetask-task-pool.png' | relative_url }}" alt="LifeTask 任务池界面，显示四种重要性任务" loading="lazy">
+  <figcaption>任务池集中显示尚未排期的任务，并用颜色和标签区分四象限。</figcaption>
+</figure>
+
 ## 下载
 
 - [下载 LifeTask 0.32.0 APK](https://github.com/joysky77/MyBlog/releases/download/lifetask-android-v0.32.0/LifeTask-0.32.0-release.apk)
@@ -54,9 +59,19 @@ APK 已通过 Android APK Signature Scheme v2 校验，发布证书 SHA-256 为�
 
 长按待安排任务，可以把它拖到某一天的 15 分钟刻度上。拖到当前或未来时间表示安排计划，拖到过去时间表示补记任务在该时间完成。已经排期的 LifeTask 任务可以跨天拖动改期；普通外部日历事件在所属日历可写、且不是重复或全天事件时，也可以拖动调整时间。
 
+<figure class="app-screenshot app-screenshot-wide">
+  <img src="{{ '/assets/lifetask-week-schedule.png' | relative_url }}" alt="LifeTask 周排程界面，顶部为待安排任务，下方为一周时间轴" loading="lazy">
+  <figcaption>周排程上方保留全部待安排任务，下方按 15 分钟刻度安排一周时间。</figcaption>
+</figure>
+
 ### 日程和月历
 
 日程页合并显示 LifeTask 任务与用户选择的手机日历事件，并用不同颜色区分任务重要性和日历来源。月历按周一至周日显示整月，每天列出当天日程；点击日期可以查看详细内容。是否显示已完成任务和日程，可在设置中调整。
+
+<figure class="app-screenshot app-screenshot-wide">
+  <img src="{{ '/assets/lifetask-month-calendar.png' | relative_url }}" alt="LifeTask 月历界面，显示整月安排和选中日期的日程" loading="lazy">
+  <figcaption>月历同时提供整月概览和选中日期的详细日程。</figcaption>
+</figure>
 
 ### 系统日历与 ICS
 
@@ -85,6 +100,11 @@ Pro 用户可以配置自己的 OpenAI 兼容接口、模型和 API Key，使用
 每周复盘根据本地任务数据生成确定性统计和规则建议，不需要调用 AI。应用支持跟随系统、浅色和深色模式；Pro 用户还可以调整主题预设、应用背景色、文字色、四象限任务颜色和小组件外观。
 
 ## 首次使用
+
+<figure class="app-screenshot">
+  <img src="{{ '/assets/lifetask-settings.png' | relative_url }}" alt="LifeTask 设置界面，包含账户、任务、日历、通知、外观、同步和隐私分类" loading="lazy">
+  <figcaption>设置按功能分类，日历、通知、同步和隐私入口集中在同一页面。</figcaption>
+</figure>
 
 1. 安装 APK 后打开 LifeTask，在“任务池”点击添加按钮，先创建一个只含标题的任务。
 2. 打开任务设置计划时间，保存后它会进入“日程”；清除计划时间后会回到任务池。

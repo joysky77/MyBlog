@@ -846,6 +846,30 @@ h3 {
   border: 1px solid var(--line);
 }
 
+.app-screenshot {
+  width: min(100%, 380px);
+  margin: 24px auto 30px;
+}
+
+.app-screenshot-wide {
+  width: min(100%, 460px);
+}
+
+.app-screenshot img {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.app-screenshot figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
 .post-body blockquote {
   margin: 24px 0;
   padding: 4px 0 4px 18px;
