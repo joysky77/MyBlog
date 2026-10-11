@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "LifeTask 0.32.0：任务、日程与周排程使用指南"
+title: "LifeTask 0.33.0：任务、日程与周排程使用指南"
 date: 2026-10-01 23:16:00 +0800
 categories: 软件
 tags: [Android, 任务管理, 日历, 排程, LifeTask]
@@ -10,7 +10,7 @@ tags: [Android, 任务管理, 日历, 排程, LifeTask]
 
 LifeTask 是一款离线优先的 Android 个人任务推进应用。它把随手记录、四象限管理、日程安排、周排程、系统日历、桌面小组件、通知候选和多设备文件夹同步放在同一个应用中。核心任务和排程功能不依赖网络，适合希望自己掌握数据、又需要把任务落实到具体时间的人。
 
-当前发布版本为 **0.32.0**，最低支持 Android 8.0。
+当前发布版本为 **0.33.0**，最低支持 Android 8.0。
 
 <figure class="app-screenshot">
   <img src="{{ '/assets/lifetask-task-pool.png' | relative_url }}" alt="LifeTask 任务池界面，显示四种重要性任务" loading="lazy">
@@ -19,18 +19,18 @@ LifeTask 是一款离线优先的 Android 个人任务推进应用。它把随�
 
 ## 下载
 
-- [下载 LifeTask 0.32.0 APK](https://github.com/joysky77/MyBlog/releases/download/lifetask-android-v0.32.0/LifeTask-0.32.0-release.apk)
-- [查看 SHA-256 校验值](https://github.com/joysky77/MyBlog/releases/download/lifetask-android-v0.32.0/SHA256SUMS.txt)
-- [打开 GitHub Release 页面](https://github.com/joysky77/MyBlog/releases/tag/lifetask-android-v0.32.0)
+- [下载 LifeTask 0.33.0 APK](https://github.com/joysky77/MyBlog/releases/download/lifetask-android-v0.33.0/LifeTask-0.33.0-release.apk)
+- [查看 SHA-256 校验值](https://github.com/joysky77/MyBlog/releases/download/lifetask-android-v0.33.0/SHA256SUMS.txt)
+- [打开 GitHub Release 页面](https://github.com/joysky77/MyBlog/releases/tag/lifetask-android-v0.33.0)
 
 安装包信息：
 
 ```text
-文件名：LifeTask-0.32.0-release.apk
-大小：12,961,293 字节
-SHA-256：6D354BBB137D356DABA9DF66118135F6BFDAA5A9A56970EA098020EDBEBACB2B
+文件名：LifeTask-0.33.0-release.apk
+大小：13,263,517 字节
+SHA-256：30B1C91A72F75241CDFACC043FCE45DA783362D0F6F51E910DA39CAD9D98284D
 包名：com.yangy.lifetask
-版本：0.32.0（versionCode 32）
+版本：0.33.0（versionCode 33）
 ```
 
 APK 已通过 Android APK Signature Scheme v2 校验，发布证书 SHA-256 为：

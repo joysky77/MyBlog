@@ -28,12 +28,12 @@
     - 工具
 
 - name: LifeTask
-  version: "0.32.0"
+  version: "0.33.0"
   platform: Android
   icon: /assets/lifetask-icon.png
   summary: 离线优先的任务与日程管理工具，支持四象限、周排程、系统日历、文件夹同步、通知候选和桌面小组件。
   status: GitHub Releases
-  download_url: https://github.com/joysky77/MyBlog/releases/tag/lifetask-android-v0.32.0
+  download_url: https://github.com/joysky77/MyBlog/releases/tag/lifetask-android-v0.33.0
   docs_url: /2026/10/01/lifetask-android/
   checksum: "SHA-256 文件随 Release 提供"
   tags:
